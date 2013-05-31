@@ -1,38 +1,45 @@
 class Cmd(object):
-    pass
+    glyph = ''
+
+    def __repr__(self):
+        return self.glyph
+
+    def compile(self):
+        raise NotImplementedError
 
 
 class Prog(Cmd, list):
-    pass
+    def compile(self):
+        return ''.join(repr(i) for i in self)
 
 
 class IncP(Cmd):
-    pass
+    glyph = '>'
 
 
 class DecP(Cmd):
-    pass
+    glyph = '<'
 
 
 class IncB(Cmd):
-    pass
+    glyph = '+'
 
 
 class DecB(Cmd):
-    pass
+    glyph = '-'
 
 
 class Out(Cmd):
-    pass
+    glyph = '.'
 
 
 class In(Cmd):
-    pass
+    glyph = ','
 
 
 class JmpF(Cmd):
-    pass
+    glyph = '['
 
 
 class JmpB(Cmd):
-    pass
+    glyph = ']'
