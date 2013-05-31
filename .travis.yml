@@ -1,0 +1,18 @@
+language: python
+python:
+    - "2.7"
+    - "pypy"
+    - "3.3"
+
+matrix:
+    allow_failures:
+        - python: "3.3"
+
+install:
+    - pip install -r requirements_test.txt
+    - pip install -e .
+
+script: PYTHONPATH="$PYTHNOPATH:." py.test
+
+notifications:
+    email: false
