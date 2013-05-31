@@ -8,11 +8,7 @@ from bf2c.ast import *
 
 pg = ParserGenerator(
     [rule.name for rule in lexer.rules],
-    precedence=[
-        ('left', ['PLUS', 'MINUS']),
-        ('left', 'EQUALS'),
-    ],
-    cache_id='patina',
+    cache_id='bf2c',
 )
 
 
@@ -22,71 +18,15 @@ def applied(f):
         return f(*args)
 
 
-@pg.production('main : expr')
-@pg.production('main : stmt')
-@pg.production('main : decl')
-@pg.production('main : ns')
+@pg.production('main : cmds')
 def main(p):
     return p[0]
 
 
-@pg.production('id : ID')
-def identifier(p):
-    return Id(p[0].getstr())
-
-
-@pg.production('type : COLON ID')
-def type_(p):
-    return Type(p[1].getstr())
-
-
-@pg.production('type :')
-def type_empty(p):
-    pass
-
-
-@pg.production('opttype :')
-def opttype_empty(p):
-    pass
-
-
-@pg.production('opttype : type')
-def opttype(p):
-    return p[0]
-
-
-@pg.production('field : id type')
-def field_typed(p):
-    name, type = p
-    return Field(name, type)
-
-
-@pg.production('inferredfield : id opttype')
-def inferred_field_typed(p):
-    name, type = p
-    return Field(name, type)
-
-
-@pg.production('exprlist :')
-@pg.production('exprlist : expr')
-@pg.production('exprlist : exprlist COMMA expr')
-@pg.production('structlist :')
-@pg.production('structlist : struct')
-@pg.production('structlist : structlist SEMI struct')
-@pg.production('decllist :')
-@pg.production('decllist : decl')
-@pg.production('decllist : decllist decl')
-@pg.production('fnlist :')
-@pg.production('fnlist : fn')
-@pg.production('fnlist : fnlist SEMI fn')
-@pg.production('arglist :')
-@pg.production('arglist : field')
-@pg.production('arglist : arglist COMMA field')
-@pg.production('fieldlist : field')
-@pg.production('fieldlist : fieldlist COMMA field')
-@pg.production('stmtlist : stmt')
-@pg.production('stmtlist : stmtlist stmt')
-def prodlist(p):
+@pg.production('cmds :')
+@pg.production('cmds : cmd')
+@pg.production('cmds : cmds cmd')
+def cmds(p):
     if len(p) == 0:
         return []
 
@@ -105,125 +45,16 @@ def prodlist(p):
         return lst + [i]
 
 
-@pg.production('expr : id')
-def identifier_expr(p):
+@pg.production('cmd : INC_P')
+@pg.production('cmd : DEC_P')
+@pg.production('cmd : INC_B')
+@pg.production('cmd : DEC_B')
+@pg.production('cmd : OUT')
+@pg.production('cmd : IN')
+@pg.production('cmd : JMP_F')
+@pg.production('cmd : JMP_B')
+def cmd(p):
     return p[0]
-
-
-@pg.production('expr : LPAREN expr RPAREN')
-def group(p):
-    _, expr, _ = p
-    return expr
-
-
-@pg.production('stmt : expr SEMI')
-def stmt(p):
-    expr, _ = p
-    return Stmt(expr)
-
-
-@pg.production('block :')
-def block_empty(p):
-    pass
-
-
-@pg.production('block : LBRACE expr RBRACE')
-def block_single(p):
-    _, expr, _ = p
-    return Block([], expr)
-
-
-@pg.production('block : LBRACE stmtlist expr RBRACE')
-def block(p):
-    _, stmts, expr, _ = p
-    return Block(stmts, expr)
-
-
-@pg.production('block : LBRACE stmtlist RBRACE')
-def block_stmt(p):
-    _, stmts, _ = p
-    return Block(stmts, None)
-
-
-@pg.production('expr : block')
-def block_expr(p):
-    return p[0]
-
-
-@pg.production('let : LET inferredfield ASSIGN expr')
-def let(p):
-    _,  field, _, expr = p
-    return Let(field, expr)
-
-
-@pg.production('expr : let')
-def let_expr(p):
-    return p[0]
-
-
-@pg.production('expr : IF expr block')
-def if_(p):
-    _, condition, then = p
-    return If(condition, then, None)
-
-
-@pg.production('expr : IF expr block ELSE block')
-def if_else(p):
-    _, condition, then, _, otherwise = p
-    return If(condition, then, otherwise)
-
-
-@pg.production('struct : STRUCT id LBRACE fieldlist RBRACE')
-def struct(p):
-    _, name, _, fields, _ = p
-    return Struct(name, fields)
-
-
-@pg.production('decl : struct')
-def struct_stmt(p):
-    return p[0]
-
-
-@pg.production('fn : FN id LPAREN arglist RPAREN RETURNS id block')
-def fn_returns(p):
-    _, name, _, fields, _, _, returns, block = p
-    return Fn(name, fields, returns, block)
-
-
-@pg.production('fn : FN id LPAREN arglist RPAREN block')
-def fn(p):
-    _, name, _, fields, _, block = p
-    return Fn(name, fields, None, block)
-
-
-@pg.production('decl : fn')
-def fn_stmt(p):
-    return p[0]
-
-
-# Literals
-@pg.production('expr : NUMBER')
-def literal(p):
-    return Number(p[0].getstr())
-
-
-# Array
-@pg.production('expr : LBRACKET exprlist RBRACKET')
-def array(p):
-    _, exprs, _ = p
-    return Array(exprs or [])
-
-
-# Call
-@pg.production('expr : id LPAREN exprlist RPAREN')
-def call(p):
-    fn, _, args, _ = p
-    return Call(fn, args)
-
-
-@pg.production('ns : decllist')
-def ns(p):
-    return Ns(p[0])
 
 
 class SyntaxError(Exception):
