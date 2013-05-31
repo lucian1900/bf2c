@@ -2,8 +2,8 @@ from functools import wraps
 
 from rply import ParserGenerator
 
-from patina.lexer import lexer
-from patina.ast import *
+from bf2c.lexer import lexer
+from bf2c.ast import *
 
 
 pg = ParserGenerator(

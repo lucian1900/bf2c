@@ -1,5 +1,5 @@
-from patina.parser import parse
-from patina.ast import *
+from bf2c.parser import parse
+from bf2c.ast import *
 
 
 def test_simple():

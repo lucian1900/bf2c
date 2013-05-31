@@ -1,8 +1,8 @@
 from pytest import raises
 
-from patina.ast import *
-from patina.compiler import compile
-from patina.parser import parse
+from bf2c.ast import *
+from bf2c.compiler import compile
+from bf2c.parser import parse
 
 
 def test_simple():
