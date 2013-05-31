@@ -1,5 +1,5 @@
-from patina.utils import FieldReprer
-from patina.compiler import CompilerContext
+from bf2c.utils import FieldReprer
+from bf2c.compiler import CompilerContext
 
 
 class InferenceError(Exception):

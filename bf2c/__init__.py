@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys
 import subprocess
 
-from bf2c.parser import parse
+#from bf2c.parser import parse
 
 
 def main():
