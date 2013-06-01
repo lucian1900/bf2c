@@ -3,4 +3,6 @@ from bf2c.ast import *
 
 
 def test_simple():
-    assert parse('') == []
+    assert parse('') == Prog()
+    assert parse('+') == Prog(['+'])
+    assert parse('+-') == Prog(['+', '-'])

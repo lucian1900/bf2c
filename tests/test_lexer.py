@@ -7,7 +7,7 @@ def tokens(text):
 
 def test_empty():
     assert tokens('') == []
-    assert tokens('hello world') == []
+    assert tokens('hello world!') == []
 
 
 def test_simple():

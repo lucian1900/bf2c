@@ -6,13 +6,13 @@ lg.add('INC_P', r'>')
 lg.add('DEC_P', r'<')
 lg.add('INC_B', r'\+')
 lg.add('DEC_B', r'-')
-lg.add('OUT',   r'.')
+lg.add('OUT',   r'\.')
 lg.add('IN',    r',')
 lg.add('JMP_F', r'\[')
 lg.add('JMP_B', r'\]')
 
-lg.ignore(r' ')
-lg.ignore(r'\w')
+# Everything else is whitespace
+lg.ignore(r'[^.><\+-\.,\[\]]')
 
 lexer = lg.build()
 
