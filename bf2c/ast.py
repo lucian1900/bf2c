@@ -1,9 +1,10 @@
 template = """
 #include <stdlib.h>
+#include <stdio.h>
 int main() {{
-    int *p = malloc(1024);
+    int *p = malloc(4000);
     {0}
-    free(p);
+    //free(p);
 }}
 """
 

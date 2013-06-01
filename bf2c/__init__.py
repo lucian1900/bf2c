@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys
 import subprocess
 
-#from bf2c.parser import parse
+from bf2c.parser import parse
 
 
 def main():
@@ -25,7 +25,6 @@ def main():
         return
 
     c = ast.compile()
-    print(c)
 
     pipe = subprocess.Popen(['cc', '-x', 'c', '-'], stdin=subprocess.PIPE)
     pipe.communicate(input=c)
