@@ -12,5 +12,5 @@ def test_empty():
 
 def test_simple():
     assert tokens('+') == ['+']
-    assert tokens('+->[,.]<') == ['+', '-', '>', '[', ',', '.', ']', '<']
+    assert tokens('+->[,.<]') == ['+', '-', '>', '[', ',', '.', '<', ']']
     assert tokens('++ hello - ') == ['+', '+', '-']

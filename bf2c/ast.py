@@ -21,7 +21,7 @@ commands = {
 
 class Prog(list):
     def __repr__(self):
-        return ''.join(repr(i) for i in self)
+        return 'Prog(' +  ''.join(i for i in self) + ')'
 
     def compile(self):
         prog = '\n    '.join(

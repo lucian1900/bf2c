@@ -14,6 +14,7 @@ int main() {
     --*p;
     putchar(*p);
     *p = getchar();
+    }
     free(p);
 }
 """
