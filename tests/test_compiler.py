@@ -2,7 +2,7 @@ from bf2c.parser import parse
 from bf2c.ast import *
 
 
-def test_simple():
+def test_codegen():
     assert parse('><[+-.,]').compile() == """
 #include <stdlib.h>
 int main() {
