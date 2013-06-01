@@ -46,43 +46,15 @@ def cmds(p):
 
 
 @pg.production('cmd : INC_P')
-def inc_p(p):
-    return IncP(p)
-
-
 @pg.production('cmd : DEC_P')
-def dec_p(p):
-    return DecP(p)
-
-
 @pg.production('cmd : INC_B')
-def inc_b(p):
-    return IncB(p)
-
-
 @pg.production('cmd : DEC_B')
-def dec_b(p):
-    return DecB(p)
-
-
 @pg.production('cmd : OUT')
-def out(p):
-    return Out(p)
-
-
 @pg.production('cmd : IN')
-def in_(p):
-    return In(p)
-
-
 @pg.production('cmd : JMP_F')
-def jmp_f(p):
-    return JmpF(p)
-
-
 @pg.production('cmd : JMP_B')
-def jmp_b(p):
-    return JmpB(p)
+def cmd(p):
+    return p[0].value
 
 
 class SyntaxError(Exception):
